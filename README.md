@@ -1,4 +1,4 @@
-"# blockchain_with_typescript"
+# blockchain_with_typescript
 
 # typescript 설치
 
