@@ -1,0 +1,13 @@
+{
+  "name": "typescript_blockchain",
+  "version": "1.0.0",
+  "description": "Leaning typescript by making a blockchain with it",
+  "main": "index.js",
+  "repository": "https://github.com/nohsangwoo/blockchain_with_typescript.git",
+  "author": "nohsangwoo <nsgr12@naver.com>",
+  "license": "MIT",
+  "scripts": {
+    "start": "node index.js",
+    "prestart": "tsc"
+  }
+}
