@@ -3,6 +3,7 @@
 # typescript 설치
 
 - yarn global add typescript
+- yarn add typescript (package.json에 추가하기위해서)
 - tsconfig.json 설정
 - terminer => tsc 입력
   tsc는 ts파일에 있는 코드를 컴파일해서 index.js랑 index.js.map을 만들어줌
@@ -13,3 +14,7 @@
 
   typescript파일을 js파일로 컴파일 해주는 명령어가 tsc명령어임
   따라서 컴파일후 생성된 index.js파일을 node로 실행해줌
+
+# yarn add tsc-watch --dev
+
+- 설치후 json 설정 바꿈
