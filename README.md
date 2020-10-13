@@ -18,3 +18,5 @@
 # yarn add tsc-watch --dev
 
 - 설치후 json 설정 바꿈
+
+#blockchian이란 말그대로 block 끼리 연결된것
