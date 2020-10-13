@@ -1,9 +1,24 @@
+import * as CryptoJS from "crypto-js";
+
 class Block {
   public index: number;
   public hash: string;
   public previousHash: string;
   public data: string;
   public timestamp: number;
+
+  // sayHello = () => "hello"; 이런식의 함수는  new Block으로 객체를 생성해줘야 사용가능
+
+  // new Block 없이 바로 사용가능하게 하고싶을땐 static 써주면됨
+  static calculateBlockHash = (
+    index: number,
+    previousHash: string,
+    data: string,
+    timestamp: number
+  ): string => {
+    return CryptoJS.SHA256(index + previousHash + timestamp + data).toString();
+  };
+
   constructor(
     index: number,
     hash: string,
@@ -19,13 +34,22 @@ class Block {
   }
 }
 
+// ------------------------ blockchain을 생성
 const genesisBlock: Block = new Block(0, "123123123123", "", "hello", 123456);
 
-let blockchain: [Block] = [genesisBlock];
-
+// blockchain은 block형식의 배열이고, genesisBlock을 배열중 하나로 가지게된다.
+let blockchain: Block[] = [genesisBlock];
 // blockchain.push("stuff"); 이런식으로는 작동 하지 않은 왜냐하면 block이 아니기떄문
 
-console.log(blockchain);
+// ------------------------- blockchain을 control
+// getBlockchain은 Block[]형식의 배열이고 모든 blockchain을 반환한다(blockchain을 배열의 모든 내용)
+const getBlockchain = (): Block[] => blockchain;
+
+// 하나의 Block을 반환하는 형식이고 가장 마지막의 Block을 반환한다
+const getLatestBlock = (): Block => getBlockchain[blockchain.length - 1];
+
+const getNewTimeStamp = (): number => Math.round(new Date().getTime() / 1000);
+
 export {};
 
 // Theory part

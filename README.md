@@ -20,3 +20,5 @@
 - 설치후 json 설정 바꿈
 
 #blockchian이란 말그대로 block 끼리 연결된것
+
+#crypto-js 암호생성 링;ㅂ,랄;
