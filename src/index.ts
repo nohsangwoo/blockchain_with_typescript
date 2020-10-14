@@ -46,10 +46,35 @@ let blockchain: Block[] = [genesisBlock];
 const getBlockchain = (): Block[] => blockchain;
 
 // 하나의 Block을 반환하는 형식이고 가장 마지막의 Block을 반환한다
-const getLatestBlock = (): Block => getBlockchain[blockchain.length - 1];
+const getLatestBlock = (): Block => blockchain[blockchain.length - 1];
 
 const getNewTimeStamp = (): number => Math.round(new Date().getTime() / 1000);
 
+const createNewBlock = (data: string): Block => {
+  // 가장 최신의 마지막 Block
+  const previosBlock: Block = getLatestBlock();
+
+  // 가장 마지막 index를 가져와서 + 1 해주고 newIndex에 넣어줌
+  const newIndex: number = previosBlock.index + 1;
+  const newTimestamp: number = getNewTimeStamp();
+  const newHash: string = Block.calculateBlockHash(
+    newIndex,
+    previosBlock.hash,
+    data,
+    newTimestamp
+  );
+  const newBlock: Block = new Block(
+    newIndex,
+    newHash,
+    previosBlock.hash,
+    data,
+    newTimestamp
+  );
+
+  return newBlock;
+};
+
+console.log(createNewBlock("hello"), createNewBlock("bye bye"));
 export {};
 
 // Theory part
