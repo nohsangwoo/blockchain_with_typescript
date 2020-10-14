@@ -1,12 +1,6 @@
 import * as CryptoJS from "crypto-js";
 
 class Block {
-  public index: number;
-  public hash: string;
-  public previousHash: string;
-  public data: string;
-  public timestamp: number;
-
   // sayHello = () => "hello"; 이런식의 함수는  new Block으로 객체를 생성해줘야 사용가능
 
   // new Block 없이 바로 사용가능하게 하고싶을땐 static 써주면됨
@@ -18,6 +12,23 @@ class Block {
   ): string => {
     return CryptoJS.SHA256(index + previousHash + timestamp + data).toString();
   };
+
+  // 유효성 검사
+  static validateStructure = (aBlock: Block): boolean => {
+    return (
+      typeof aBlock.index === "number" &&
+      typeof aBlock.hash === "string" &&
+      typeof aBlock.previousHash === "string" &&
+      typeof aBlock.timestamp === "number" &&
+      typeof aBlock.data === "string"
+    );
+  };
+
+  public index: number;
+  public hash: string;
+  public previousHash: string;
+  public data: string;
+  public timestamp: number;
 
   constructor(
     index: number,
@@ -52,21 +63,21 @@ const getNewTimeStamp = (): number => Math.round(new Date().getTime() / 1000);
 
 const createNewBlock = (data: string): Block => {
   // 가장 최신의 마지막 Block
-  const previosBlock: Block = getLatestBlock();
+  const previousBlock: Block = getLatestBlock();
 
   // 가장 마지막 index를 가져와서 + 1 해주고 newIndex에 넣어줌
-  const newIndex: number = previosBlock.index + 1;
+  const newIndex: number = previousBlock.index + 1;
   const newTimestamp: number = getNewTimeStamp();
   const newHash: string = Block.calculateBlockHash(
     newIndex,
-    previosBlock.hash,
+    previousBlock.hash,
     data,
     newTimestamp
   );
   const newBlock: Block = new Block(
     newIndex,
     newHash,
-    previosBlock.hash,
+    previousBlock.hash,
     data,
     newTimestamp
   );
@@ -74,7 +85,17 @@ const createNewBlock = (data: string): Block => {
   return newBlock;
 };
 
-console.log(createNewBlock("hello"), createNewBlock("bye bye"));
+const isBlockValid = (candidateBlock: Block, previousBlock: Block): boolean => {
+  // 유효성 검사를 실패하면 false를 반환
+  if (!Block.validateStructure(candidateBlock)) {
+    return false;
+  } else if (previousBlock.index + 1 !== candidateBlock.index) {
+    return false;
+  } else if (previousBlock.hash !== candidateBlock.previousHash) {
+    return false;
+  }
+};
+
 export {};
 
 // Theory part
